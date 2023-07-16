@@ -39,6 +39,6 @@ class RegiesterRequest extends FormRequest
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->responseValidation($validator->errors()->toArray(), 'Failed!'));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors()), 'Failed!'));
     }
 }

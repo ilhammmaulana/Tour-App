@@ -29,16 +29,12 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "min:3",
-            "school_id" => "min:1",
+            "name" => "required|min:3",
             "photo" => "image|max:2048|mimes:png,jpg",
-            "banner" => "image|max:2048|mimes:png,jpg",
-            "phone" => "numeric|min:7",
-            "email" => "email|min:5",
         ];
     }
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->responseValidation($validator->errors()->toArray(), 'Failed!'));
+        throw new HttpResponseException($this->requestValidation(formatErrorValidatioon($validator->errors())));
     }
 }
