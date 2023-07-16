@@ -29,6 +29,13 @@ class AuthController extends ApiController
     public function login(LoginRequest $loginRequest)
     {
         $loginType = filter_var($loginRequest->input('email_or_phone'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+
+        if ($loginType == 'phone') {
+            $phoneNumber = $loginRequest->input('email_or_phone');
+            if (!ctype_digit($phoneNumber)) {
+                return $this->badRequest('bad_request', 'Failed! Invalid email  or phone', 'invalid_value');
+            }
+        }
         $loginRequest->merge([
             $loginType => $loginRequest->input('email_or_phone')
         ]);
@@ -48,7 +55,7 @@ class AuthController extends ApiController
 
     public function me()
     {
-        return $this->requestSuccessData('Success!', new UserResource($this->guard()->user()));
+        return $this->requestSuccessData(new UserResource($this->guard()->user()));
     }
 
     /**
@@ -108,7 +115,7 @@ class AuthController extends ApiController
     {
         $input = $regiesterRequest->only('name', 'email', 'phone', 'password', 'confirm_password');
         if (empty($input['email']) && empty($input['phone'])) {
-            return $this->badRequest('error_validation');
+            return $this->badRequest('error_validation'); //penting jangan dirubah
         }
         $input['password'] = bcrypt($input['password']);
         unset($input['confirm_password']);

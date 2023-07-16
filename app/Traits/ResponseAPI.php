@@ -36,7 +36,7 @@ trait ResponseAPI
     {
         return response()->json([
             "status" => Response::HTTP_OK,
-            "message" => "Login Success!",
+            "message" => "Success!",
             "token" => $token,
             "data" => $dataUser
         ]);
@@ -49,7 +49,7 @@ trait ResponseAPI
             "token" => $token,
         ]);
     }
-    public static function badRequest($error = 'bad_request', $message = 'Failed!')
+    public static function badRequest($error = 'bad_request', $message = 'bad_request')
     {
         return response()->json([
             "status" => Response::HTTP_BAD_REQUEST,
@@ -79,21 +79,5 @@ trait ResponseAPI
             "message" => $message,
             "errors" => $errors
         ], Response::HTTP_BAD_REQUEST);
-    }
-    public function badRequestWithLog($errors)
-    {
-        return response()->json([
-            "status" => Response::HTTP_BAD_REQUEST,
-            "message" => 'Failed!',
-            "errors" => $errors
-        ], Response::HTTP_BAD_REQUEST);
-    }
-    public function OTPSuccess($token)
-    {
-        return response()->json([
-            'status' => 200,
-            'message' => "Success! OTP Match",
-            'token' => $token
-        ]);
     }
 }
