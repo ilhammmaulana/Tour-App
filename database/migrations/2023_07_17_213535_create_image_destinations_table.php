@@ -15,6 +15,8 @@ class CreateImageDestinationsTable extends Migration
     {
         Schema::create('image_destinations', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
+            $table->foreignUuid('destination_id')->constrained('destinations');
             $table->timestamps();
         });
     }

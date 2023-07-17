@@ -14,7 +14,9 @@ class CreateSavedDestinationsTable extends Migration
     public function up()
     {
         Schema::create('saved_destinations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('created_by')->constrained('users');
+            $table->foreignUuid('destination_id')->constrained('destinations');
             $table->timestamps();
         });
     }

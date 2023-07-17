@@ -15,6 +15,8 @@ class CreateReviewDestinationsTable extends Migration
     {
         Schema::create('review_destinations', function (Blueprint $table) {
             $table->id();
+            $table->integer('star');
+            $table->foreignUuid('created_by')->constrained('users');
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ class CreateCategoryDestinationsTable extends Migration
     {
         Schema::create('category_destinations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
