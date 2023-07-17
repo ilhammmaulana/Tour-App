@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '3e3eb40f9296b65b5ff51a798b5802f65a89b3a1',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -440,12 +440,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '3e3eb40f9296b65b5ff51a798b5802f65a89b3a1',
     ),
     'laravel/serializable-closure' => 
     array (
@@ -464,6 +464,15 @@
       array (
       ),
       'reference' => '04a2d3bd0d650c0764f70bf49d1ee39393e4eb10',
+    ),
+    'laravel/ui' => 
+    array (
+      'pretty_version' => 'v3.4.6',
+      'version' => '3.4.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '65ec5c03f7fee2c8ecae785795b829a15be48c2c',
     ),
     'lcobucci/clock' => 
     array (

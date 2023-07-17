@@ -29,7 +29,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|min:3",
+            "name" => "required |min:3",
             "photo" => "image|max:2048|mimes:png,jpg",
         ];
     }
