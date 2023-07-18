@@ -15,8 +15,8 @@ class CreateSavedDestinationsTable extends Migration
     {
         Schema::create('saved_destinations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('created_by')->constrained('users');
-            $table->foreignUuid('destination_id')->constrained('destinations');
+            $table->foreignUuid('created_by')->constrained('users', 'id');
+            $table->foreignUuid('destination_id')->constrained('destinations',);
             $table->timestamps();
         });
     }

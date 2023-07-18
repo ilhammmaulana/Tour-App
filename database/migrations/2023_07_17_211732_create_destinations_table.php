@@ -14,13 +14,15 @@ class CreateDestinationsTable extends Migration
     public function up()
     {
         Schema::create('destinations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description');
-            $table->foreignUuid('created_by')->constrained('users');
+            $table->string('image');
+            $table->foreignUuid('category_id')->nullable()->constrained('category_destinations')->nullOnDelete();
+            $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->string('address');
-            $table->string('longtitude');
-            $table->string('langtitude');
+            $table->string('longitude');
+            $table->string('latitude');
             $table->timestamps();
         });
     }

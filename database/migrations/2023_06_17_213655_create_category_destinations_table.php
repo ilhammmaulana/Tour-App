@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImageDestinationsTable extends Migration
+class CreateCategoryDestinationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateImageDestinationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('image_destinations', function (Blueprint $table) {
-            $table->id();
-            $table->string('image');
-            $table->foreignUuid('destination_id')->constrained('destinations');
+        Schema::create('category_destinations', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateImageDestinationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('image_destinations');
+        Schema::dropIfExists('category_destinations');
     }
 }
