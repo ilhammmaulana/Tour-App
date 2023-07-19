@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\DestinationIdRequest;
+use App\Http\Resources\CategoryDestinationResource;
 use App\Http\Resources\DestinationResource;
 use App\Repositories\DestinationRepository;
 use Illuminate\Http\Request;
@@ -30,7 +32,7 @@ class DestinationController extends ApiController
      */
     public function index()
     {
-        $destinations = DestinationResource::collection($this->destinationRepository->getAllDestinations());
+        $destinations = DestinationResource::collection($this->destinationRepository->getAllDestinationsWithSave($this->guard()->id()));
         return $this->requestSuccessData($destinations);
     }
 
@@ -98,5 +100,35 @@ class DestinationController extends ApiController
     public function destroy($id)
     {
         //
+    }
+    /**
+     * Save destination
+     */
+    public function toogleDestination(DestinationIdRequest $destinationIdRequest)
+    {
+        try {
+            $input = $destinationIdRequest->only('destination_id');
+            $condition = $this->destinationRepository->assignSaveOrUnsaveDestination($input['destination_id'],  $this->guard()->id());
+            return $this->requestSuccessData([
+                "assignSaveDestination" => $condition,
+                "destination_id" => $input['destination_id']
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+            return $this->badRequest();
+        }
+    }
+    /**
+     * Get Categories destination
+     */
+    public function getDestinationCategories()
+    {
+        $categoriesDestination = CategoryDestinationResource::collection($this->destinationRepository->getDestinationCategroies());
+        return $this->requestSuccessData($categoriesDestination);
+    }
+    public function getRecordSaveDestination()
+    {
+        $destinations = DestinationResource::collection($this->destinationRepository->getHisotrySaveDestination($this->guard()->id()));
+        return $this->requestSuccessData($destinations);
     }
 }

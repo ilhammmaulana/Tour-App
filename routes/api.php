@@ -39,5 +39,10 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
-    Route::resource('destinations', DestinationController::class);
+    Route::resource('destinations', DestinationController::class)->only(['index']);
+    Route::prefix('destinations')->group(function () {
+        Route::get('category', [DestinationController::class, 'getDestinationCategories']);
+        Route::get('save', [DestinationController::class, 'getRecordSaveDestination']);
+        Route::post('save', [DestinationController::class, 'toogleDestination']);
+    });
 });
