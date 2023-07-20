@@ -9,6 +9,8 @@ use App\Http\Controllers\WEB\LoginController;
 use App\Http\Controllers\WEB\UserProfileController;
 use App\Http\Controllers\WEB\ResetPassword;
 use App\Http\Controllers\WEB\ChangePassword;
+use App\Http\Controllers\WEB\DestinationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +27,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/', function () {
-    return redirect('/dashboard');
-})->middleware('auth');
+// Route::get('/', function () {
+//     return redirect('/dashboard');
+// })->middleware('auth');
 
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -39,6 +41,7 @@ Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('gue
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('destinations', DestinationController::class)->names('destinations');
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

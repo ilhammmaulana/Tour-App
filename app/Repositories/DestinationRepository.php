@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 interface DestinationRepositoryInterface
 {
+    public function getAllDestination();
     public function getAllDestinationsWithSave($user_id);
     public function assignSaveOrUnsaveDestination($destination_id, $created_by);
     public function getHistorySaveDestination($user_id);
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
+    public function getAllDestination()
+    {
+        return Destination::all();
+    }
     public function getAllDestinationsWithSave($user_id)
     {
         try {

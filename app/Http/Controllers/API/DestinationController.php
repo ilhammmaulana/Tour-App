@@ -34,6 +34,7 @@ class DestinationController extends ApiController
      */
     public function index()
     {
+        dd('ok');
         $destinations = DestinationResource::collection($this->destinationRepository->getAllDestinationsWithSave($this->guard()->id()));
         return $this->requestSuccessData($destinations);
     }

@@ -3,10 +3,20 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\DestinationRepository;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    private $destinationRepository;
+    /**
+     * Class constructor.
+     */
+    public function __construct(DestinationRepository $destinationRepository)
+    {
+        $this->destinationRepository = $destinationRepository;
+    }
+
     /**
      * Display all the static pages when authenticated
      *
@@ -15,9 +25,17 @@ class PageController extends Controller
      */
     public function index(string $page)
     {
-        if (view()->exists("pages.{$page}")) {
-            return view("pages.{$page}");
-        }
+        dd($page);
+        // if ($page === 'destinations') {
+        //     $destinations = $this->destinationRepository->getAllDestination();
+        //     return view("pages.{$page}", [
+        //         "destinations" => $destinations
+        //     ]);
+        // }
+
+        // if (view()->exists("pages.{$page}")) {
+        //     return view("pages.{$page}");
+        // }
 
         return abort(404);
     }
