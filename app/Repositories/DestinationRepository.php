@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 interface DestinationRepositoryInterface
 {
-    public function getAllDestinationsWithSave();
-    public function assignSaveDestination($destination_id, $created_by);
+    public function getAllDestinationsWithSave($user_id);
+    public function assignSaveOrUnsaveDestination($destination_id, $created_by);
+    public function getHistorySaveDestination($user_id);
 }
-
-class DestinationRepository
+class DestinationRepository implements DestinationRepositoryInterface
 {
     public function getAllDestinationsWithSave($user_id)
     {
@@ -27,15 +27,6 @@ class DestinationRepository
                 ->get();
 
             return $destinations;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
-    public function getDestinationCategroies()
-    {
-        try {
-            $categories = CategoryDestination::all();
-            return $categories;
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -61,7 +52,7 @@ class DestinationRepository
             throw $th;
         }
     }
-    public function getHisotrySaveDestination($user_id)
+    public function getHistorySaveDestination($user_id)
     {
         $savedDestinations = SavedDestination::with('destination')
             ->where('created_by', $user_id)

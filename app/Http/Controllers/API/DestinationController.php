@@ -7,13 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DestinationIdRequest;
 use App\Http\Resources\CategoryDestinationResource;
 use App\Http\Resources\DestinationResource;
+use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
 use Illuminate\Http\Request;
 
 class DestinationController extends ApiController
 {
 
-    private $destinationRepository;
+    private $destinationRepository, $categoryDestinationRepository;
 
 
 
@@ -21,9 +22,10 @@ class DestinationController extends ApiController
      * 
      * Class constructor.
      */
-    public function __construct(DestinationRepository $destinationRepository)
+    public function __construct(DestinationRepository $destinationRepository, CategoryDestinationRepository $categoryDestinationRepository)
     {
         $this->destinationRepository = $destinationRepository;
+        $this->categoryDestinationRepository = $categoryDestinationRepository;
     }
     /**
      * Display a listing of the resource.
@@ -123,12 +125,12 @@ class DestinationController extends ApiController
      */
     public function getDestinationCategories()
     {
-        $categoriesDestination = CategoryDestinationResource::collection($this->destinationRepository->getDestinationCategroies());
+        $categoriesDestination = CategoryDestinationResource::collection($this->categoryDestinationRepository->getDestinationCategories());
         return $this->requestSuccessData($categoriesDestination);
     }
     public function getRecordSaveDestination()
     {
-        $destinations = DestinationResource::collection($this->destinationRepository->getHisotrySaveDestination($this->guard()->id()));
+        $destinations = DestinationResource::collection($this->destinationRepository->getHistorySaveDestination($this->guard()->id()));
         return $this->requestSuccessData($destinations);
     }
 }
