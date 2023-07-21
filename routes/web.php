@@ -22,15 +22,6 @@ use App\Http\Controllers\WEB\DestinationController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-// Route::get('/', function () {
-//     return redirect('/dashboard');
-// })->middleware('auth');
-
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -51,4 +42,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
     Route::get('/{page}', [PageController::class, 'index'])->name('page');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+
+Route::fallback(function () {
+    if (!request()->is('public/*')) {
+        return redirect('/login');
+    }
+    abort(404);
 });

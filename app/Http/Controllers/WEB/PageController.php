@@ -25,17 +25,16 @@ class PageController extends Controller
      */
     public function index(string $page)
     {
-        dd($page);
-        // if ($page === 'destinations') {
-        //     $destinations = $this->destinationRepository->getAllDestination();
-        //     return view("pages.{$page}", [
-        //         "destinations" => $destinations
-        //     ]);
-        // }
+        if ($page === 'destinations') {
+            $destinations = $this->destinationRepository->getAllDestination();
+            return view("pages.{$page}", [
+                "destinations" => $destinations
+            ]);
+        }
 
-        // if (view()->exists("pages.{$page}")) {
-        //     return view("pages.{$page}");
-        // }
+        if (view()->exists("pages.{$page}")) {
+            return view("pages.{$page}");
+        }
 
         return abort(404);
     }
