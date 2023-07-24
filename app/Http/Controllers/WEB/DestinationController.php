@@ -24,7 +24,7 @@ class DestinationController extends Controller
     public function index()
     {
         $destinataions = $this->destinationRepository->getAllDestination();
-        return view('pages.desphtinations', [
+        return view('pages.destinations', [
             "destinations" =>  $destinataions,
             "page" => "destinations"
         ]);

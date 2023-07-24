@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\AssignRoleUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,15 +10,17 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\useUUID;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, SoftDeletes, useUUID;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, AssignRoleUser;
     protected $table = 'users';
     protected $fillable = ['name', 'email', 'phone', 'password', 'photo'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
+
 
     public function getJWTIdentifier()
     {
