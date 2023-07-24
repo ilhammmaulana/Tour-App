@@ -37,7 +37,7 @@
                                                 <div class="col-md-12">
                                                     <label for="name" class="h6">Destination name</label>
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" id="name"
+                                                        {{-- <input type="text" class="form-control" id="name" --}}
                                                             placeholder="Destination name">
                                                     </div>
                                                 </div>
