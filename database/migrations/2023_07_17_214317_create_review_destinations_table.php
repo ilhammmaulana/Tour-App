@@ -14,8 +14,9 @@ class CreateReviewDestinationsTable extends Migration
     public function up()
     {
         Schema::create('review_destinations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->uuid('id')->primary()->index();
             $table->integer('star');
+            $table->text('description');
             $table->foreignUuid('created_by')->constrained('users');
             $table->timestamps();
         });

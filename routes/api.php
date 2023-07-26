@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DestinationController;
+use App\Http\Controllers\API\ReviewDestinationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::middleware([
     });
     Route::resource('destinations', DestinationController::class)->only(['index']);
     Route::prefix('destinations')->group(function () {
+        Route::resource('review', ReviewDestinationController::class)->only('index', 'store');
         Route::get('category', [DestinationController::class, 'getDestinationCategories']);
         Route::get('save', [DestinationController::class, 'getRecordSaveDestination']);
         Route::post('save', [DestinationController::class, 'toogleDestination']);
