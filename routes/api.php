@@ -42,7 +42,7 @@ Route::middleware([
     });
     Route::resource('destinations', DestinationController::class)->only(['index']);
     Route::prefix('destinations')->group(function () {
-        Route::resource('review', ReviewDestinationController::class)->only('index', 'store');
+        Route::resource('review', ReviewDestinationController::class)->only('index', 'store', 'update');
         Route::get('category', [DestinationController::class, 'getDestinationCategories']);
         Route::get('save', [DestinationController::class, 'getRecordSaveDestination']);
         Route::post('save', [DestinationController::class, 'toogleDestination']);

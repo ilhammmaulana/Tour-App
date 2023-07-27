@@ -18,7 +18,9 @@ class CreateReviewDestinationsTable extends Migration
             $table->integer('star');
             $table->text('description');
             $table->foreignUuid('created_by')->constrained('users');
+            $table->foreignUuid('destination_id')->constrained('destinations');
             $table->timestamps();
+            $table->unique(['destination_id', 'created_by']);
         });
     }
 
