@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Jakarta",
+        "population": 10770487,
+        "area_sq_km": 664.01,
+        "latitude": -6.1754,
+        "longitude": 106.8272
+    },
+    {
+        "name": "Surabaya",
+        "population": 2949587,
+        "area_sq_km": 350.54,
+        "latitude": -7.2575,
+        "longitude": 112.7521
+    },
+    {
+        "name": "Bandung",
+        "population": 2575478,
+        "area_sq_km": 167.67,
+        "latitude": -6.9175,
+        "longitude": 107.6191
+    },
+    {
+        "name": "Bali"
+    },
+    {
+        "name": "Lombok"
+    },
+    {
+        "name": "Semarang"
+    },
+    {
+        "name": "Bukoharjo"
+    }
+]

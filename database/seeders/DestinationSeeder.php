@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CategoryDestination;
 use App\Models\Destination;
+use App\Models\Province;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,6 @@ class DestinationSeeder extends Seeder
     {
         $category = CategoryDestination::where('name', 'Tour')->first();
         $admin = User::where('email', 'admin@gmail.com')->first();
-
         collect([
             [
                 "name" => "Bali - Pantai Kuta",
@@ -27,6 +27,7 @@ class DestinationSeeder extends Seeder
                 "address" => "Kuta, Kabupaten Badung, Bali",
                 "description" => "Pantai Kuta adalah tujuan wisata populer di Bali, dikenal dengan pantainya yang indah, kehidupan malam yang ramai, dan tempat surfing yang menarik.",
                 "image" => "https://placehold.co/600x400?text=Pantai+Kuta",
+                "province_id" => Province::where('name', 'like', 'Bali')->select('id')->first()->id,
                 "created_by" => $admin['id'],
                 "category_id" => $category['id'],
             ],
@@ -38,6 +39,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Candi Prambanan adalah kompleks candi Hindu yang megah di Yogyakarta, Indonesia, terkenal dengan arsitektur yang indah dan warisan budayanya yang kaya.",
                 "image" => "https://placehold.co/600x400?text=Candi+Prambanan",
                 "created_by" => $admin['id'],
+                "province_id" => Province::where('name', 'like', 'YOGYAKARTA')->select('id')->first()->id,
                 "category_id" => $category['id'],
             ],
             [
@@ -47,6 +49,7 @@ class DestinationSeeder extends Seeder
                 "address" => "Gili Trawangan, Kecamatan Pemenang, Kabupaten Lombok Utara, Nusa Tenggara Barat",
                 "description" => "Gili Trawangan adalah pulau yang terkenal di Lombok, Nusa Tenggara Barat, dikenal dengan pantainya yang indah, kehidupan bawah laut yang menakjubkan, dan suasana yang santai.",
                 "image" => "https://placehold.co/600x400?text=Gili+Trawangan",
+                "province_id" => Province::where('name', 'like', 'Nusa Tenggara Barat')->select('id')->first()->id,
                 "created_by" => $admin['id'],
                 "category_id" => $category['id'],
             ],
@@ -56,6 +59,7 @@ class DestinationSeeder extends Seeder
                 "longitude" => "106.86023702664814",
                 "address" => "Jalan Medan Merdeka Barat No.1, Gambir, Jakarta Pusat",
                 "description" => "Monumen Nasional (Monas) adalah landmark terkenal di Jakarta, Indonesia, yang melambangkan perjuangan dan kemerdekaan bangsa Indonesia.",
+                "province_id" => Province::where('name', 'DKI JAKARTA')->select('id')->first()->id,
                 "image" => "https://placehold.co/600x400?text=Monumen+Nasional",
                 "created_by" => $admin['id'],
                 "category_id" => $category['id'],
@@ -66,6 +70,7 @@ class DestinationSeeder extends Seeder
                 "longitude" => "107.60965187901247",
                 "address" => "Cikole, Lembang, Kabupaten Bandung Barat, Jawa Barat",
                 "description" => "Gunung Tangkuban Perahu adalah gunung berapi yang terkenal di Bandung, Jawa Barat, dikenal dengan kawahnya yang indah dan pemandangan alam yang menakjubkan.",
+                "province_id" => Province::where('name', 'like', 'Jawa Barat')->select('id')->first()->id,
                 "image" => "https://placehold.co/600x400?text=Gunung+Tangkuban+Perahu",
                 "created_by" => $admin['id'],
                 "category_id" => $category['id'],

@@ -20,6 +20,8 @@ class CreateDestinationsTable extends Migration
             $table->string('image');
             $table->foreignUuid('category_id')->nullable()->constrained('category_destinations')->nullOnDelete();
             $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('province_id')->nullable()->constrained('provinces')->nullOnDelete();
+            $table->foreignUuid('city_id')->nullable()->constrained('cities')->nullOnDelete();
             $table->string('address');
             $table->string('longitude');
             $table->string('latitude');
