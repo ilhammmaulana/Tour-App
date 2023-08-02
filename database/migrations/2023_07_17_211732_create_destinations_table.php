@@ -22,6 +22,7 @@ class CreateDestinationsTable extends Migration
             $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignUuid('province_id')->nullable()->constrained('provinces')->nullOnDelete();
             $table->foreignUuid('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->decimal('price', 12, 2)->default(0);
             $table->string('address');
             $table->string('longitude');
             $table->string('latitude');

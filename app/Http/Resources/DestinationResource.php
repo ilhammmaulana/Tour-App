@@ -21,6 +21,7 @@ class DestinationResource extends JsonResource
             "image" => url($this->image),
             "address" => $this->address,
             "save_by_you" => $this->save_by_you == 1 ? true : false,
+            "average_rating" => $this->average_rating,
             "longitude" => $this->longitude,
             "latitude" => $this->latitude,
             "updated_at" => $this->updated_at->format('Y-m-d H:i:s'),

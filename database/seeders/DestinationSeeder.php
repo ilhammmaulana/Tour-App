@@ -29,6 +29,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Pantai+Kuta",
                 "province_id" => Province::where('name', 'like', 'Bali')->select('id')->first()->id,
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -40,6 +41,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Candi+Prambanan",
                 "created_by" => $admin['id'],
                 "province_id" => Province::where('name', 'like', 'YOGYAKARTA')->select('id')->first()->id,
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -51,6 +53,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Gili+Trawangan",
                 "province_id" => Province::where('name', 'like', 'Nusa Tenggara Barat')->select('id')->first()->id,
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -61,6 +64,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Monumen Nasional (Monas) adalah landmark terkenal di Jakarta, Indonesia, yang melambangkan perjuangan dan kemerdekaan bangsa Indonesia.",
                 "province_id" => Province::where('name', 'DKI JAKARTA')->select('id')->first()->id,
                 "image" => "https://placehold.co/600x400?text=Monumen+Nasional",
+                "price" => rand(100000, 1000000),
                 "created_by" => $admin['id'],
                 "category_id" => $category['id'],
             ],
@@ -73,6 +77,7 @@ class DestinationSeeder extends Seeder
                 "province_id" => Province::where('name', 'like', 'Jawa Barat')->select('id')->first()->id,
                 "image" => "https://placehold.co/600x400?text=Gunung+Tangkuban+Perahu",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -83,6 +88,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Taman Nasional Komodo adalah tempat tinggal komodo, hewan langka yang hanya ada di Indonesia. Pulau ini menawarkan keindahan alam yang luar biasa dan kehidupan satwa yang unik.",
                 "image" => "https://placehold.co/600x400?text=Taman+Nasional+Komodo",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -93,6 +99,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Taman Nasional Tanjung Puting adalah rumah bagi orangutan, satwa ikonik Indonesia. Dengan hutan tropis yang luas, taman nasional ini menawarkan pengalaman alam yang luar biasa.",
                 "image" => "https://placehold.co/600x400?text=Taman+Nasional+Tanjung+Puting",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -103,6 +110,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Taman Nasional Bromo Tengger Semeru adalah tempat wisata terkenal di Jawa Timur, Indonesia. Gunung Bromo, dengan kawahnya yang ikonik, menawarkan pemandangan yang spektakuler.",
                 "image" => "https://placehold.co/600x400?text=Gunung+Bromo",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -113,6 +121,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Kepulauan Wayag di Raja Ampat adalah surga penyelam dan pecinta alam. Terkenal dengan laguna biru, pantai pasir putih, dan kehidupan bawah laut yang menakjubkan.",
                 "image" => "https://placehold.co/600x400?text=Kepulauan+Wayag",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ],
             [
@@ -123,6 +132,7 @@ class DestinationSeeder extends Seeder
                 "description" => "Tegallalang Rice Terrace adalah pemandangan sawah yang indah di Ubud, Bali. Terkenal dengan teraseringnya yang menakjubkan dan panorama alam yang menenangkan.",
                 "image" => "https://placehold.co/600x400?text=Tegallalang+Rice+Terrace",
                 "created_by" => $admin['id'],
+                "price" => rand(100000, 1000000),
                 "category_id" => $category['id'],
             ]
 

@@ -55,7 +55,7 @@ class ReviewDestinationController extends ApiController
         } catch (QueryException $e) {
             // Handle the integrity constraint violation error here
             if ($e->getCode() === '23000') {
-                return $this->badRequest('already_exist', 'You already reviewed this destination!');
+                // return $this->badRequest('already_exist', 'You already reviewed this destination!');
             }
         } catch (\Throwable $th) {
             throw $th;

@@ -18,19 +18,33 @@ class DestinationRepository implements DestinationRepositoryInterface
 {
     public function getAllDestination()
     {
-        return Destination::all();
+        return Destination::with(['reviews' => function ($query) {
+            $query->select('destination_id', DB::raw('avg(star) as average_rating'))
+                ->groupBy('destination_id');
+        }])
+            ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
+            ->get()
+            ->map(function ($destination) {
+                $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
+                unset($destination->reviews);
+                return $destination;
+            });
     }
     public function getAllDestinationsWithSave($user_id)
     {
         try {
             $destinations = Destination::select('destinations.*')
+                ->selectSub(function ($query) {
+                    $query->selectRaw('round(avg(star), 2)')
+                        ->from('review_destinations')
+                        ->whereColumn('destination_id', 'destinations.id');
+                }, 'average_rating')
                 ->leftJoin('saved_destinations', function ($join) use ($user_id) {
                     $join->on('destinations.id', '=', 'saved_destinations.destination_id')
                         ->where('saved_destinations.created_by', '=', $user_id);
                 })
                 ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
                 ->get();
-
             return $destinations;
         } catch (\Throwable $th) {
             throw $th;

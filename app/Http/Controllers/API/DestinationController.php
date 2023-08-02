@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DestinationIdRequest;
 use App\Http\Resources\CategoryDestinationResource;
 use App\Http\Resources\DestinationResource;
+use App\Models\Destination;
 use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
 use Illuminate\Http\Request;
@@ -34,6 +35,21 @@ class DestinationController extends ApiController
      */
     public function index()
     {
+        // $destinations = Destination::with('reviews')
+        //     ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
+        //     ->get()
+        //     ->map(function ($destination) {
+        //         $averageRating = $destination->reviews->avg('star');
+        //         $destination->average_rating = round($averageRating, 2); // Rounded to 2 decimal places
+        //         unset($destination->reviews);
+        //         return $destination;
+        //     });
+
+        // // Transform the destinations using the DestinationResource
+        // $transformedDestinations = DestinationResource::collection($destinations);
+
+        // return $this->requestSuccessData($transformedDestinations);
+
         $destinations = DestinationResource::collection($this->destinationRepository->getAllDestinationsWithSave($this->guard()->id()));
         return $this->requestSuccessData($destinations);
     }
@@ -132,5 +148,25 @@ class DestinationController extends ApiController
     {
         $destinations = DestinationResource::collection($this->destinationRepository->getHistorySaveDestination($this->guard()->id()));
         return $this->requestSuccessData($destinations);
+    }
+
+    public function getSliderImage()
+    {
+        $randomDestinations = Destination::inRandomOrder()
+            ->get();
+
+        // Inisialisasi array untuk menyimpan URL gambar-gambar destinasi
+        $destinationImages = [];
+
+        $numImagesToRetrieve = rand(5, 6);
+
+        foreach ($randomDestinations->random($numImagesToRetrieve) as $destination) {
+            $destinationImages[] = [
+                'id' => $destination->id,
+                'name' => $destination->name,
+                'image' => $destination->image,
+            ];
+        }
+        return $this->requestSuccessData($destinationImages);
     }
 }
