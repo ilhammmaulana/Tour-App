@@ -19,6 +19,8 @@ class DestinationSeeder extends Seeder
     {
         $category = CategoryDestination::where('name', 'Tour')->first();
         $admin = User::where('email', 'admin@gmail.com')->first();
+        $nature = CategoryDestination::where('name', 'Nature')->first()['id'];
+        $aesthetic = CategoryDestination::where('name', 'Aesthetic')->first()['id'];
         collect([
             [
                 "name" => "Bali - Pantai Kuta",
@@ -30,7 +32,7 @@ class DestinationSeeder extends Seeder
                 "province_id" => Province::where('name', 'like', 'Bali')->select('id')->first()->id,
                 "created_by" => $admin['id'],
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $nature,
             ],
             [
                 "name" => "Yogyakarta - Candi Prambanan",
@@ -42,7 +44,7 @@ class DestinationSeeder extends Seeder
                 "created_by" => $admin['id'],
                 "province_id" => Province::where('name', 'like', 'YOGYAKARTA')->select('id')->first()->id,
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $aesthetic,
             ],
             [
                 "name" => "Lombok - Gili Trawangan",
@@ -78,7 +80,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Gunung+Tangkuban+Perahu",
                 "created_by" => $admin['id'],
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $nature,
             ],
             [
                 "name" => "Pulau Komodo - Taman Nasional Komodo",
@@ -89,7 +91,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Taman+Nasional+Komodo",
                 "created_by" => $admin['id'],
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $nature,
             ],
             [
                 "name" => "Kalimantan - Taman Nasional Tanjung Puting",
@@ -111,7 +113,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Gunung+Bromo",
                 "created_by" => $admin['id'],
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $nature,
             ],
             [
                 "name" => "Raja Ampat - Kepulauan Wayag",
@@ -122,7 +124,7 @@ class DestinationSeeder extends Seeder
                 "image" => "https://placehold.co/600x400?text=Kepulauan+Wayag",
                 "created_by" => $admin['id'],
                 "price" => rand(100000, 1000000),
-                "category_id" => $category['id'],
+                "category_id" => $nature,
             ],
             [
                 "name" => "Ubud - Tegallalang Rice Terrace",

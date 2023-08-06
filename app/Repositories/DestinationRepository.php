@@ -13,6 +13,7 @@ interface DestinationRepositoryInterface
     public function getAllDestinationsWithSave($user_id);
     public function assignSaveOrUnsaveDestination($destination_id, $created_by);
     public function getHistorySaveDestination($user_id);
+    public function getDestinationByCategoryId($category_id);
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
@@ -77,5 +78,23 @@ class DestinationRepository implements DestinationRepositoryInterface
             ->where('created_by', $user_id)
             ->get();
         return $savedDestinations->pluck('destination');;
+    }
+    public function getDestinationByCategoryId($category_id)
+    {
+        try {
+            return Destination::with(['reviews' => function ($query) {
+                $query->select('destination_id', DB::raw('avg(star) as average_rating'))
+                    ->groupBy('destination_id');
+            }])
+                ->where('category_id', $category_id)->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
+                ->get()
+                ->map(function ($destination) {
+                    $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
+                    unset($destination->reviews);
+                    return $destination;
+                });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

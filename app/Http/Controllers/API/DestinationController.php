@@ -155,7 +155,6 @@ class DestinationController extends ApiController
         $randomDestinations = Destination::inRandomOrder()
             ->get();
 
-        // Inisialisasi array untuk menyimpan URL gambar-gambar destinasi
         $destinationImages = [];
 
         $numImagesToRetrieve = rand(5, 6);

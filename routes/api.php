@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DestinationCategoryController;
 use App\Http\Controllers\API\DestinationController;
 use App\Http\Controllers\API\ReviewDestinationController;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ Route::middleware([
     Route::prefix('destinations')->group(function () {
         Route::resource('review', ReviewDestinationController::class)->only('index', 'store', 'update');
         Route::get('category', [DestinationController::class, 'getDestinationCategories']);
+        Route::get('category/{id}', [DestinationCategoryController::class, 'getDestinationsByCategoryId']);
         Route::get('slider-images', [DestinationController::class, 'getSliderImage']);
         Route::get('save', [DestinationController::class, 'getRecordSaveDestination']);
         Route::post('save', [DestinationController::class, 'toogleDestination']);
