@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\CreateDestinationReview;
+use App\Http\Requests\WEB\CreateDestinationRequest;
+use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
 use Illuminate\Http\Request;
 
 class DestinationController extends Controller
 {
-    private $destinationRepository;
+    private $destinationRepository, $categoryDestinationRepository;
     /**
      * Class constructor.
      */
-    public function __construct(DestinationRepository $destinationRepository)
+    public function __construct(DestinationRepository $destinationRepository, CategoryDestinationRepository $categoryDestinationRepository)
     {
         $this->destinationRepository = $destinationRepository;
+        $this->categoryDestinationRepository = $categoryDestinationRepository;
     }
     /**
      * Display a listing of the resource.
@@ -23,9 +27,11 @@ class DestinationController extends Controller
      */
     public function index()
     {
-        $destinataions = $this->destinationRepository->getAllDestination();
+        $destinataions = $this->destinationRepository->getAllDestination(true);
+        $categories = $this->categoryDestinationRepository->getDestinationCategories();
         return view('pages.destinations', [
             "destinations" =>  $destinataions,
+            "category_destinations" => $categories,
             "page" => "destinations"
         ]);
     }
@@ -46,9 +52,10 @@ class DestinationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateDestinationRequest $createDestinationRequest)
     {
-        //
+        $input = $createDestinationRequest->only('name', 'address', 'price', 'category_id', 'longitude', 'latitude', 'description');
+        dd($input);
     }
 
     /**

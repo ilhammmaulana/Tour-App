@@ -16,7 +16,28 @@
 </head>
 
 <body class="{{ $class ?? '' }}">
-
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+              @if($errors->any())
+              <div class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
+                  <ul class="mb-0">
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+              @endif
+              @if(session('success'))
+                <div  class="alert alert-custom text-white alert-success max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
+                    <i class="ni ni-check-bold"></i>
+                    {{ session('success') }}
+                    
+                </div>
+              @endif
+          </div>
+        </div>
+      </div>
     @guest
         @yield('content')
     @endguest

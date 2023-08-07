@@ -17,19 +17,28 @@ interface DestinationRepositoryInterface
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
-    public function getAllDestination()
+    public function getAllDestination($paginate = false)
     {
-        return Destination::with(['reviews' => function ($query) {
-            $query->select('destination_id', DB::raw('avg(star) as average_rating'))
-                ->groupBy('destination_id');
-        }])
-            ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
-            ->get()
-            ->map(function ($destination) {
-                $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
-                unset($destination->reviews);
-                return $destination;
-            });
+        if ($paginate) {
+            return Destination::with(['reviews' => function ($query) {
+                $query->select('destination_id', DB::raw('avg(star) as average_rating'))
+                    ->groupBy('destination_id');
+            }])
+                ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
+                ->paginate(10);
+        } else {
+            return Destination::with(['reviews' => function ($query) {
+                $query->select('destination_id', DB::raw('avg(star) as average_rating'))
+                    ->groupBy('destination_id');
+            }])
+                ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
+                ->get()
+                ->map(function ($destination) {
+                    $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
+                    unset($destination->reviews);
+                    return $destination;
+                });
+        }
     }
     public function getAllDestinationsWithSave($user_id)
     {
