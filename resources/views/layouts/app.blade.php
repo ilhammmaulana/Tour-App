@@ -35,6 +35,12 @@
                     
                 </div>
               @endif
+              @if(session('failed'))
+              <div  class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
+                  {{ session('failed') }}
+                  
+              </div>
+            @endif
           </div>
         </div>
       </div>
@@ -81,6 +87,27 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('assets/js/argon-dashboard.js') }}"></script>
     {{-- @stack('js'); --}}
+    <script>
+            function hideAlert() {
+        const alertElement = document.querySelector('alert-custom');
+        if (alertElement) {
+            alertElement.style.opacity = '0';
+            setTimeout(function() {
+                alertElement.remove();
+            }, 1000);
+        }
+    }
+
+    setTimeout(function() {
+        hideAlert();
+    }, 5000);
+    // Trigger the hideAlert function when the user clicks on the alert (optional)
+    document.addEventListener('click', function(event) {
+        if (event.target.matches('alert-custom')) {
+            hideAlert();
+        }
+    });
+    </script>
 </body>
 
 </html>

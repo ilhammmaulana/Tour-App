@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,9 +27,15 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            $user = User::find(auth()->guard('web')->id());
+            if ($user->hasRole('admin')) {
+                $request->session()->regenerate();
+                return redirect()->intended('dashboard');
+            } else {
+                auth()->logout();
+                return redirect()->route('login')->with('failed', 'You do not have access to the dashboard.');
+            }
         }
 
         return back()->withErrors([

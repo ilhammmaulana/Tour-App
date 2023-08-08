@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Destination extends Model
 {
     use HasFactory, useUUID;
-    protected $fillable = ['name', 'address', 'created_by', 'longitude', 'langtitude', 'image', 'category_id', 'price'];
+    protected $fillable = ['name', 'address', 'created_by', 'longitude', 'latitude', 'description', 'image', 'category_id', 'price'];
     protected $table = 'destinations';
     protected $primaryKey = 'id';
     public $incrementing = false;

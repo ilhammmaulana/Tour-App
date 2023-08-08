@@ -12,7 +12,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Destinastions</p>
                                     <h5 class="font-weight-bolder">
-                                        50 
+                                        {{ $count_destination }}
                                     </h5>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                                 <div class="numbers">
                                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Active User</p>
                                     <h5 class="font-weight-bolder">
-                                        20
+                                        {{ $count_user }}
                                     </h5>
                                
                                 </div>

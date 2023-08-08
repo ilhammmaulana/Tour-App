@@ -23,3 +23,19 @@ if (!function_exists('generateOTP')) {
         return $otp;
     }
 }
+
+if (!function_exists('format_rupiah')) {
+    function format_rupiah($number)
+    {
+        return "Rp. " . number_format($number, 2, ",", ".");
+    }
+}
+
+if (!function_exists('decode_rupiah_to_decimal')) {
+    function decode_rupiah_to_decimal($str)
+    {
+        $cleanedStr = str_replace(['Rp', '.', ' '], '', $str);
+        $decimalValue = str_replace(',', '.', $cleanedStr);
+        return floatval($decimalValue);
+    }
+}

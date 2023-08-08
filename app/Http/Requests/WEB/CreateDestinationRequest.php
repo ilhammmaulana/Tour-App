@@ -28,7 +28,8 @@ class CreateDestinationRequest extends FormRequest
             'address' => 'required|string',
             'longitude' => 'required',
             'latitude' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
+            'description' => 'required|min:5',
+            'image' => 'required|mimes:png,jpg,jpeg|max:2024|image',
             'category_id' => 'required',
             'price' => 'required|integer',
         ];

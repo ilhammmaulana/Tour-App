@@ -14,30 +14,29 @@ interface DestinationRepositoryInterface
     public function assignSaveOrUnsaveDestination($destination_id, $created_by);
     public function getHistorySaveDestination($user_id);
     public function getDestinationByCategoryId($category_id);
+    public function countDestination(): int;
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
+    public function countDestination(): int
+    {
+        return Destination::count();
+    }
     public function getAllDestination($paginate = false)
     {
+        $query = Destination::selectRaw('destinations.*, AVG(review_destinations.star) as average_rating')
+            ->leftJoin('review_destinations', 'destinations.id', '=', 'review_destinations.destination_id')
+            ->groupBy('destinations.id', 'destinations.name', 'destinations.description', 'destinations.image', 'destinations.province_id', 'destinations.created_by', 'destinations.category_id', 'destinations.address', 'destinations.longitude', 'destinations.latitude', 'destinations.created_at', 'destinations.updated_at')
+            ->latest();
         if ($paginate) {
-            return Destination::with(['reviews' => function ($query) {
-                $query->select('destination_id', DB::raw('avg(star) as average_rating'))
-                    ->groupBy('destination_id');
-            }])
-                ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
-                ->paginate(10);
+            return $query->paginate(10);
         } else {
-            return Destination::with(['reviews' => function ($query) {
-                $query->select('destination_id', DB::raw('avg(star) as average_rating'))
-                    ->groupBy('destination_id');
-            }])
-                ->select('id', 'name', 'description', 'image', 'province_id', 'created_by', 'category_id', 'address', 'longitude', 'latitude', 'created_at', 'updated_at')
-                ->get()
-                ->map(function ($destination) {
-                    $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
-                    unset($destination->reviews);
-                    return $destination;
-                });
+            $destinations = $query->get();
+            $destinations->each(function ($destination) {
+                $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
+                unset($destination->reviews);
+            });
+            return $destinations;
         }
     }
     public function getAllDestinationsWithSave($user_id)
@@ -102,6 +101,14 @@ class DestinationRepository implements DestinationRepositoryInterface
                     unset($destination->reviews);
                     return $destination;
                 });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function createDestination($data)
+    {
+        try {
+            return Destination::create($data);
         } catch (\Throwable $th) {
             throw $th;
         }
