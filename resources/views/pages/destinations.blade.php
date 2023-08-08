@@ -61,7 +61,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="category_destinations" class="h6">Select Category Destination</label>
-                                                        <select required name="category_id" class="form-control" id="category_destinations">
+                                                        <select required name="category_id" class="form-control" id="_category_destinations">
                                                             <option value="Destination Catgeory" disabled selected>Destination Catgeory</option>
                                                             @foreach ($category_destinations as $category)
                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -74,7 +74,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="category_destinations" class="h6">Select City</label>
-                                                        <select required name="city_id" class="form-control" id="category_destinations">
+                                                        <select required name="city_id" class="form-control" id="update_category_destinations">
                                                             <option value="Destination Catgeory" disabled selected>City </option>
                                                             @foreach ($cities as $city)
                                                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -456,7 +456,9 @@
     const editLongitude = document.getElementById('update-longitude');
     const editLatitude = document.getElementById('update-latitude');
     const editAdress = document.getElementById('update-address');
-
+    const editCategoryDropdown = document.getElementById('_category_destinations');
+    const editCityDropdown = document.getElementById('update_category_destinations');
+  
 
     editButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -480,10 +482,21 @@
             editLatitude.value = latitude;
             editLongitude.value = longitude;
             editAdress.value = address;
-
+            setSelectedOption(editCategoryDropdown, category);
+            setSelectedOption(editCityDropdown, city);
 
         });
+        
     });
+    function setSelectedOption(dropdown, value) {
+        for (let i = 0; i < dropdown.options.length; i++) {
+            if (dropdown.options[i].value === value) {
+                dropdown.options[i].selected = true;
+                break;
+            }
+        }
+    }
 
     </script>
 @endsection
+
