@@ -142,6 +142,7 @@ class DestinationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->destinationRepository->deleteDestination($id);
+        return redirect('destinations')->with('success', 'Success delete destination');
     }
 }

@@ -344,9 +344,14 @@
                                                 data-address="{{ $destination->address }}"
                                             >
                                                 Edit
-                                            </button>
-                                                <button class="btn btn-danger">Delete</button>
+                                                <form action="{{ url('destinations') . '/' .$destination->id }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                </button>
+                                                <button TYPE="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </td>
+
                                         </tr>
                                     @endforeach
 

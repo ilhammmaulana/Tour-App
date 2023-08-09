@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Models\CategoryDestination;
 use App\Models\Destination;
 use App\Models\SavedDestination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 interface DestinationRepositoryInterface
 {
@@ -15,6 +15,7 @@ interface DestinationRepositoryInterface
     public function getHistorySaveDestination($user_id);
     public function getDestinationByCategoryId($category_id);
     public function countDestination(): int;
+    public function deleteDestination($id);
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
@@ -109,6 +110,22 @@ class DestinationRepository implements DestinationRepositoryInterface
     {
         try {
             return Destination::create($data);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function deleteDestination($id)
+    {
+        try {
+            $destination = Destination::findOrFail($id);
+
+            if ($destination->image) {
+                Storage::delete($destination->image);
+            }
+
+            $deleted = Destination::destroy($id);
+
+            return redirect('destinations')->with('success', 'Success delete destination!');
         } catch (\Throwable $th) {
             throw $th;
         }
