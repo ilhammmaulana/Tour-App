@@ -14,6 +14,7 @@
                                 data-bs-target="#createDestination">
                                 Create Destination
                             </button>
+                            {{-- Edit --}}
                             <div class="modal fade" id="editDestination" tabindex="-1" role="dialog"
                             aria-labelledby="editModelDestination" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -25,7 +26,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form enctype="multipart/form-data" action="" method="POST">
+                                        <form enctype="multipart/form-data" id="editForm"   action="" method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <div class="form-group">
@@ -60,8 +61,8 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="category_destinations" class="h6">Select Category Destination</label>
-                                                        <select required name="category_id" class="form-control" id="_category_destinations">
+                                                        <label for="update_category_destinations" class="h6">Select Category Destination</label>
+                                                        <select required name="category_id" class="form-control" id="update_category_destinations">
                                                             <option value="Destination Catgeory" disabled selected>Destination Catgeory</option>
                                                             @foreach ($category_destinations as $category)
                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -73,8 +74,8 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="category_destinations" class="h6">Select City</label>
-                                                        <select required name="city_id" class="form-control" id="update_category_destinations">
+                                                        <label for="update_city" class="h6">Select City</label>
+                                                        <select required name="city_id" class="form-control" id="update_city">
                                                             <option value="Destination Catgeory" disabled selected>City </option>
                                                             @foreach ($cities as $city)
                                                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -84,8 +85,8 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="provinces" class="h6">Select Province </label>
-                                                        <select required name="city_id" class="form-control" id="provinces">
+                                                        <label for="update_provinces" class="h6">Select Province </label>
+                                                        <select required name="province_id" class="form-control" id="update_provinces">
                                                             <option value="Destination Catgeory" disabled selected>Select Province </option>
                                                             @foreach ($provinces as $province)
                                                                 <option value="{{ $province->id }}">{{ $province->name }}</option>
@@ -100,7 +101,7 @@
                                                     <label for="photo" class="h6">Destination photo</label>
                                                     <div class="form-group">
                                                         <input type="file" id="imageInput"
-                                                            onchange="previewImage(event)"class="form-control"
+                                                            onchange="previewImageForEdit(event)"class="form-control"
                                                             name="image">
                                                     </div>
                                                 </div>
@@ -140,6 +141,7 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- Create --}}
                         <div class="modal fade" id="createDestination" tabindex="-1" role="dialog"
                             aria-labelledby="createModelDestination" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -196,10 +198,10 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6">  
                                                     <div class="form-group">
-                                                        <label for="category_destinations" class="h6">Select City</label>
-                                                        <select required name="city_id" class="form-control" id="category_destinations">
+                                                        <label for="city" class="h6">Select City</label>
+                                                        <select required name="city_id" class="form-control" id="city">
                                                             <option value="Destination Catgeory" disabled selected>City </option>
                                                             @foreach ($cities as $city)
                                                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -210,7 +212,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="provinces" class="h6">Select Province </label>
-                                                        <select required name="city_id" class="form-control" id="provinces">
+                                                        <select required name="province_id" class="form-control" id="provinces">
                                                             <option value="Destination Catgeory" disabled selected>Select Province </option>
                                                             @foreach ($provinces as $province)
                                                                 <option value="{{ $province->id }}">{{ $province->name }}</option>
@@ -357,7 +359,7 @@
                                     <li class="page-item"><a class="page-link" href="{{ $destinations->previousPageUrl() }}" rel="prev">&laquo;</a></li>
                                 @endif
                         
-                                @if ($destinations->lastPage() == 1) <!-- If there is only one page, display it explicitly -->
+                                @if ($destinations->lastPage() == 1) 
                                     <li class="page-item active"><span class="page-link">1</span></li>
                                 @else
                                     @foreach ($destinations->getUrlRange(1, $destinations->lastPage()) as $page => $url)
@@ -391,10 +393,8 @@
     priceInput.addEventListener("input", function() {
         const inputValue = priceInput.value;
 
-        // Remove non-numeric characters from the input
         const numericValue = inputValue.replace(/\D/g, '');
 
-        // Display the cleaned numeric value in the input
         priceInput.value = numericValue;
 
         if (inputValue !== numericValue) {
@@ -417,7 +417,6 @@
                 const file = imageInput.files[0];
                 const reader = new FileReader();
 
-                // Check file type
                 const fileType = file.type;
                 const validImageTypes = ['image/jpeg', 'image/jpg'];
                 if (!validImageTypes.includes(fileType)) {
@@ -426,7 +425,6 @@
                     return;
                 }
 
-                // Check file size
                 const fileSizeMB = file.size / (1024 * 1024);
                 const maxSizeMB = 2;
                 if (fileSizeMB > maxSizeMB) {
@@ -435,7 +433,6 @@
                     return;
                 }
 
-                // Read the image file and display the preview
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.style.display = 'block';
@@ -443,9 +440,43 @@
 
                 reader.readAsDataURL(file);
             } else {
-                // Reset the preview if no image is selected
                 imagePreview.src = '#';
                 imagePreview.style.display = 'none';
+            }
+        }
+        function previewImageForEdit(event)
+        {
+            const imageInput = event.target;
+
+            if (imageInput.files && imageInput.files[0]) {
+                const file = imageInput.files[0];
+                const reader = new FileReader();
+
+                const fileType = file.type;
+                const validImageTypes = ['image/jpeg', 'image/jpg'];
+                if (!validImageTypes.includes(fileType)) {
+                    alert('Please select a valid JPG/JPEG image.');
+                    imageInput.value = '';
+                    return;
+                }
+
+                const fileSizeMB = file.size / (1024 * 1024);
+                const maxSizeMB = 2;
+                if (fileSizeMB > maxSizeMB) {
+                    alert('Image size must be less than 2MB.');
+                    imageInput.value = '';
+                    return;
+                }
+
+                reader.onload = function(e) {
+                    editImagePreview.src = e.target.result;
+                    editImagePreview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                editImagePreview.src = '#';
+                editImagePreview.style.display = 'none';
             }
         }
         const editButtons = document.querySelectorAll('.edit-button');
@@ -456,10 +487,11 @@
     const editLongitude = document.getElementById('update-longitude');
     const editLatitude = document.getElementById('update-latitude');
     const editAdress = document.getElementById('update-address');
-    const editCategoryDropdown = document.getElementById('_category_destinations');
-    const editCityDropdown = document.getElementById('update_category_destinations');
-  
+    const editCategoryDropdown = document.getElementById('update_category_destinations');
+    const editCityDropdown = document.getElementById('update_city');
+    const editProvinceDropdown = document.getElementById('update_provinces');
 
+  
     editButtons.forEach(button => {
         button.addEventListener('click', () => {
             const id = button.getAttribute('data-id');
@@ -469,11 +501,13 @@
             const longitude = button.getAttribute('data-longitude');
             const latitude = button.getAttribute('data-latitude');
             const address = button.getAttribute('data-address');
-            const image = button.getAttribute('data-image')
+            const image = button.getAttribute('data-image');
+            const category = button.getAttribute('data-category');
+            const city = button.getAttribute('data-city');
+            const province = button.getAttribute('data-province');
 
-
-
-
+            const url = "{{ url('destinations') }}" + '/' + id;
+            editForm.setAttribute('action', url);
             editNameInput.value = name;
             editImagePreview.src = image;
             editImagePreview.style.display = 'block';
@@ -484,19 +518,21 @@
             editAdress.value = address;
             setSelectedOption(editCategoryDropdown, category);
             setSelectedOption(editCityDropdown, city);
+            console.log(city)
+            setSelectedOption(editProvinceDropdown, province);
 
         });
         
     });
     function setSelectedOption(dropdown, value) {
-        for (let i = 0; i < dropdown.options.length; i++) {
-            if (dropdown.options[i].value === value) {
-                dropdown.options[i].selected = true;
-                break;
-            }
+    const options = dropdown.options;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === value) {
+            options[i].selected = true;
+            break;
         }
     }
-
+}
     </script>
 @endsection
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DestinationCategoryController;
 use App\Http\Controllers\API\DestinationController;
+use App\Http\Controllers\API\PlacesController;
 use App\Http\Controllers\API\ReviewDestinationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,12 @@ Route::middleware([
         'prefix' => 'user'
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
+    });
+    Route::group([
+        "prefix" => "resources"
+    ], function () {
+        Route::get('province', [PlacesController::class, 'getProvinces']);
+        Route::get('city', [PlacesController::class, 'getCities']);
     });
     Route::resource('destinations', DestinationController::class)->only(['index']);
     Route::prefix('destinations')->group(function () {

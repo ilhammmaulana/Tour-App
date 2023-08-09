@@ -5,9 +5,12 @@ namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CreateDestinationReview;
 use App\Http\Requests\WEB\CreateDestinationRequest;
+use App\Http\Requests\WEB\UpdateDestinationRequest;
+use App\Models\Destination;
 use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
 use App\Repositories\PlacesRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -62,7 +65,7 @@ class DestinationController extends Controller
     public function store(CreateDestinationRequest $createDestinationRequest)
     {
         try {
-            $input = $createDestinationRequest->only('name', 'address', 'price', 'category_id', 'longitude', 'latitude', 'description');
+            $input = $createDestinationRequest->only('name', 'address', 'price', 'category_id', 'city_id', 'province_id', 'longitude', 'latitude', 'description');
             $image = $createDestinationRequest->file('image');
             $path = Storage::disk('public')->put('images/users', $image);
             $input['image'] = 'public/' . $path;
@@ -102,8 +105,33 @@ class DestinationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDestinationRequest $updateDestinationRequest, $id)
     {
+        try {
+            $input = $updateDestinationRequest->only('name', 'address', 'price', 'category_id', 'city_id', 'province_id', 'longitude', 'latitude', 'description');
+
+            // Update the destination
+            $destination = Destination::findOrFail($id);
+            $destination->update($input);
+
+            // Handle optional image update
+            if ($updateDestinationRequest->hasFile('image')) {
+                if ($destination->image) {
+                    Storage::delete($destination->image);
+                }
+
+                // Upload and store the new image
+                $imagePath = $updateDestinationRequest->file('image')->store('destination_images', 'public');
+                $destination->image = 'public/' . $imagePath;
+                $destination->save();
+            }
+
+            return redirect('destinations')->with('success', 'Destination updated successfully');
+        } catch (ModelNotFoundException $e) {
+            redirect('destinations')->with('failed', 'Maaf destinasi tidak dapat ditemukan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**

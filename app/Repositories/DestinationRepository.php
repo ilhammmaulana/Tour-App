@@ -53,7 +53,7 @@ class DestinationRepository implements DestinationRepositoryInterface
                         ->where('saved_destinations.created_by', '=', $user_id);
                 })
                 ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
-                ->get();
+                ->latest()->get();
             return $destinations;
         } catch (\Throwable $th) {
             throw $th;

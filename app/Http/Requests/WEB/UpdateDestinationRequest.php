@@ -4,7 +4,7 @@ namespace App\Http\Requests\WEB;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateDestinationRequest extends FormRequest
+class UpdateDestinationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,12 +29,9 @@ class CreateDestinationRequest extends FormRequest
             'longitude' => 'required',
             'latitude' => 'required',
             'description' => 'required|min:5',
-            'image' => 'required|mimes:png,jpg,jpeg|max:2024|image',
+            'image' => 'mimes:png,jpg,jpeg|max:2024|image',
             'category_id' => 'required',
-            'city_id' => 'required',
-            'province_id' => 'required',
             'price' => 'required',
-
         ];
     }
 }
