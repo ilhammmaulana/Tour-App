@@ -29,14 +29,11 @@ class DestinationRepository implements DestinationRepositoryInterface
             ->leftJoin('review_destinations', 'destinations.id', '=', 'review_destinations.destination_id')
             ->groupBy('destinations.id', 'destinations.name', 'destinations.description', 'destinations.image', 'destinations.province_id', 'destinations.created_by', 'destinations.category_id', 'destinations.address', 'destinations.longitude', 'destinations.latitude', 'destinations.created_at', 'destinations.updated_at')
             ->latest();
+
         if ($paginate) {
             return $query->paginate(10);
         } else {
             $destinations = $query->get();
-            $destinations->each(function ($destination) {
-                $destination->average_rating = $destination->reviews->first()->average_rating ?? null;
-                unset($destination->reviews);
-            });
             return $destinations;
         }
     }
