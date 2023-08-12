@@ -149,10 +149,10 @@ class DestinationController extends ApiController
             $destinationImages[] = [
                 'id' => $destination->id,
                 'name' => $destination->name,
-                'image' => $destination->image,
+                'image' => url($destination->image),
             ];
         }
 
-        return $this->requestSuccessData(SliderResource::collection($destinationImages));
+        return $this->requestSuccessData($destinationImages);
     }
 }
