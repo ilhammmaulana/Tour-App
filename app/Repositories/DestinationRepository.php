@@ -40,7 +40,7 @@ class DestinationRepository implements DestinationRepositoryInterface
     public function getAllDestinationsWithSave($user_id)
     {
         try {
-            $destinations = Destination::select('destinations.*')
+            $destinations = Destination::with(['reviews.user'])->select('destinations.*')
                 ->selectSub(function ($query) {
                     $query->selectRaw('round(avg(star), 2)')
                         ->from('review_destinations')
