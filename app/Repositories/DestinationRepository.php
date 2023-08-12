@@ -27,7 +27,7 @@ class DestinationRepository implements DestinationRepositoryInterface
     {
         $query = Destination::selectRaw('destinations.*, AVG(review_destinations.star) as average_rating')
             ->leftJoin('review_destinations', 'destinations.id', '=', 'review_destinations.destination_id')
-            ->groupBy('destinations.id', 'destinations.name', 'destinations.description', 'destinations.image', 'destinations.province_id', 'destinations.created_by', 'destinations.category_id', 'destinations.address', 'destinations.longitude', 'destinations.latitude', 'destinations.created_at', 'destinations.updated_at')
+            ->groupBy('destinations.id', 'destinations.name', 'destinations.description', 'destinations.image', 'destinations.province_id', 'destinations.city_id', 'destinations.created_by', 'destinations.category_id', 'destinations.address', 'destinations.longitude', 'destinations.latitude', 'destinations.created_at', 'destinations.updated_at')
             ->latest();
 
         if ($paginate) {
