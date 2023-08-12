@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DestinationIdRequest;
 use App\Http\Resources\CategoryDestinationResource;
 use App\Http\Resources\DestinationResource;
+use App\Http\Resources\SliderResource;
 use App\Models\Destination;
 use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
@@ -151,6 +152,7 @@ class DestinationController extends ApiController
                 'image' => $destination->image,
             ];
         }
-        return $this->requestSuccessData($destinationImages);
+
+        return $this->requestSuccessData(SliderResource::collection($destinationImages));
     }
 }
