@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Destination;
 use App\Models\SavedDestination;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,6 +17,7 @@ interface DestinationRepositoryInterface
     public function getDestinationByCategoryId($category_id);
     public function countDestination(): int;
     public function deleteDestination($id);
+    public function getDestinationByProvinceId($id, $user_id);
 }
 class DestinationRepository implements DestinationRepositoryInterface
 {
@@ -52,6 +54,26 @@ class DestinationRepository implements DestinationRepositoryInterface
                 })
                 ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
                 ->latest()->get();
+            return $destinations;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getOne($id, $user_id)
+    {
+        try {
+            $destinations = Destination::with(['reviews.user'])->select('destinations.*')
+                ->selectSub(function ($query) {
+                    $query->selectRaw('round(avg(star), 2)')
+                        ->from('review_destinations')
+                        ->whereColumn('destination_id', 'destinations.id');
+                }, 'average_rating')
+                ->leftJoin('saved_destinations', function ($join) use ($user_id) {
+                    $join->on('destinations.id', '=', 'saved_destinations.destination_id')
+                        ->where('saved_destinations.created_by', '=', $user_id);
+                })
+                ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
+                ->latest()->firstOrFail($id);
             return $destinations;
         } catch (\Throwable $th) {
             throw $th;
@@ -123,6 +145,46 @@ class DestinationRepository implements DestinationRepositoryInterface
             $deleted = Destination::destroy($id);
 
             return redirect('destinations')->with('success', 'Success delete destination!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getDestinationByProvinceId($id, $user_id)
+    {
+        try {
+            $destinations = Destination::with(['reviews.user'])->where('province_id', $id)->select('destinations.*')
+                ->selectSub(function ($query) {
+                    $query->selectRaw('round(avg(star), 2)')
+                        ->from('review_destinations')
+                        ->whereColumn('destination_id', 'destinations.id');
+                }, 'average_rating')
+                ->leftJoin('saved_destinations', function ($join) use ($user_id) {
+                    $join->on('destinations.id', '=', 'saved_destinations.destination_id')
+                        ->where('saved_destinations.created_by', '=', $user_id);
+                })
+                ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
+                ->latest()->get();
+            return $destinations;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+    public function getDestinationByCityId($id, $user_id)
+    {
+        try {
+            $destinations = Destination::with(['reviews.user'])->where('city_id', $id)->select('destinations.*')
+                ->selectSub(function ($query) {
+                    $query->selectRaw('round(avg(star), 2)')
+                        ->from('review_destinations')
+                        ->whereColumn('destination_id', 'destinations.id');
+                }, 'average_rating')
+                ->leftJoin('saved_destinations', function ($join) use ($user_id) {
+                    $join->on('destinations.id', '=', 'saved_destinations.destination_id')
+                        ->where('saved_destinations.created_by', '=', $user_id);
+                })
+                ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
+                ->latest()->get();
+            return $destinations;
         } catch (\Throwable $th) {
             throw $th;
         }

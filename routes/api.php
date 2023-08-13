@@ -48,9 +48,11 @@ Route::middleware([
         Route::get('province', [PlacesController::class, 'getProvinces']);
         Route::get('city', [PlacesController::class, 'getCities']);
     });
-    Route::resource('destinations', DestinationController::class)->only(['index']);
+    Route::resource('destinations', DestinationController::class)->only(['index', 'show']);
     Route::prefix('destinations')->group(function () {
         Route::resource('review', ReviewDestinationController::class)->only('index', 'store', 'update');
+        Route::get('province/{id}', [DestinationController::class, 'getDestinationByProvinceId']);
+        Route::get('city/{id}', [DestinationController::class, 'getDestinationByCityId']);
         Route::get('category', [DestinationController::class, 'getDestinationCategories']);
         Route::get('category/{id}', [DestinationCategoryController::class, 'getDestinationsByCategoryId']);
         Route::get('slider-images', [DestinationController::class, 'getSliderImage']);

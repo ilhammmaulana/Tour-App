@@ -8,9 +8,12 @@ use App\Http\Requests\API\DestinationIdRequest;
 use App\Http\Resources\CategoryDestinationResource;
 use App\Http\Resources\DestinationResource;
 use App\Http\Resources\SliderResource;
+use App\Models\City;
 use App\Models\Destination;
+use App\Models\Province;
 use App\Repositories\CategoryDestinationRepository;
 use App\Repositories\DestinationRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class DestinationController extends ApiController
@@ -69,7 +72,14 @@ class DestinationController extends ApiController
      */
     public function show($id)
     {
-        //
+        try {
+            $destination = new DestinationResource($this->destinationRepository->getOne($id, $this->guard()->id()));
+            return $this->requestSuccessData($destination);
+        } catch (ModelNotFoundException $th) {
+            return $this->requestNotFound('Destination not found!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -154,5 +164,27 @@ class DestinationController extends ApiController
         }
 
         return $this->requestSuccessData($destinationImages);
+    }
+    public function getDestinationByProvinceId($id)
+    {
+        try {
+            Province::findOrFail($id);
+            $destinations = DestinationResource::collection($this->destinationRepository->getDestinationByProvinceId($id, $this->guard()->id()));
+            return $this->requestSuccessData($destinations);
+        } catch (ModelNotFoundException $e) {
+            return $this->requestNotFound('Province not found!');
+        } catch (\Throwable $th) {
+        }
+    }
+    public function getDestinationByCityId($id)
+    {
+        try {
+            City::findOrFail($id);
+            $destinations = DestinationResource::collection($this->destinationRepository->getDestinationByCityId($id, $this->guard()->id()));
+            return $this->requestSuccessData($destinations);
+        } catch (ModelNotFoundException $e) {
+            return $this->requestNotFound('City not found!');
+        } catch (\Throwable $th) {
+        }
     }
 }
