@@ -75,6 +75,8 @@ class DestinationRepository implements DestinationRepositoryInterface
                 ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
                 ->latest()->firstOrFail($id);
             return $destinations;
+        } catch (ModelNotFoundException $e) {
+            throw $e;
         } catch (\Throwable $th) {
             throw $th;
         }

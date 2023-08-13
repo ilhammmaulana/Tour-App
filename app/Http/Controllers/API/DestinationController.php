@@ -65,7 +65,7 @@ class DestinationController extends ApiController
     }
 
     /**
-     * Display the specified resource.
+     * Display the specifiedget resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -73,6 +73,7 @@ class DestinationController extends ApiController
     public function show($id)
     {
         try {
+            Destination::findOrFail($id);
             $destination = new DestinationResource($this->destinationRepository->getOne($id, $this->guard()->id()));
             return $this->requestSuccessData($destination);
         } catch (ModelNotFoundException $th) {
