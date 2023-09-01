@@ -20,6 +20,7 @@ class DestinationResource extends JsonResource
             "description" => $this->description,
             "image" => url($this->image),
             "address" => $this->address,
+            "category_destination_id" => $this->category_id,
             "save_by_you" => $this->save_by_you == 1 ? true : false,
             "average_rating" => $this->average_rating,
             "reviews" => ReviewResource::collection($this->reviews),

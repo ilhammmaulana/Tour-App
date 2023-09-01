@@ -38,7 +38,6 @@
               @if(session('failed'))
               <div  class="alert alert-custom text-white alert-danger max-width-500 fixed-top fade border-0 show mt-5 mx-auto" role="alert">
                   {{ session('failed') }}
-                  
               </div>
             @endif
           </div>

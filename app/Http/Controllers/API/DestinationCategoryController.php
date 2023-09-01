@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DestinationResource;
 use App\Models\CategoryDestination;
@@ -9,7 +10,7 @@ use App\Repositories\DestinationRepository;
 use App\Traits\ResponseAPI;
 use Illuminate\Http\Request;
 
-class DestinationCategoryController extends Controller
+class DestinationCategoryController extends ApiController
 {
     use ResponseAPI;
     private $destinationRepository;
@@ -28,7 +29,7 @@ class DestinationCategoryController extends Controller
             return $this->requestNotFound('Category destination, not found!');
         }
 
-        $destinations = DestinationResource::collection($this->destinationRepository->getDestinationByCategoryId($id));
+        $destinations = DestinationResource::collection($this->destinationRepository->getDestinationByCategoryId($this->guard()->id(), $id));
         return $this->requestSuccessData($destinations);
     }
 }
