@@ -82,19 +82,22 @@ class DestinationRepository implements DestinationRepositoryInterface
     public function getOne($id, $user_id)
     {
         try {
-            $destinations = Destination::with(['reviews.user'])->select('destinations.*')
+            $destination = Destination::with(['reviews.user'])
+                ->leftJoin('saved_destinations', function ($join) use ($user_id) {
+                    $join->on('destinations.id', '=', 'saved_destinations.destination_id')
+                        ->where('saved_destinations.created_by', '=', $user_id);
+                })
+                ->select('destinations.*')
                 ->selectSub(function ($query) {
                     $query->selectRaw('round(avg(star), 2)')
                         ->from('review_destinations')
                         ->whereColumn('destination_id', 'destinations.id');
                 }, 'average_rating')
-                ->leftJoin('saved_destinations', function ($join) use ($user_id) {
-                    $join->on('destinations.id', '=', 'saved_destinations.destination_id')
-                        ->where('saved_destinations.created_by', '=', $user_id);
-                })
+                ->where('destinations.id', $id)
                 ->addSelect(DB::raw('CASE WHEN saved_destinations.id IS NULL THEN false ELSE true END AS save_by_you'))
-                ->latest()->first($id);
-            return $destinations;
+                ->first();
+
+            return $destination;
         } catch (ModelNotFoundException $e) {
             throw $e;
         } catch (\Throwable $th) {
